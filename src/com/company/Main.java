@@ -1,29 +1,24 @@
 //Respostas
 /*
-1. Ao criar um setter para modificar o valor dono de um grupo, aparece a mensagem de erro "Cannot assign a value to final
-variable 'dono'", ou seja, por ser uma variável final só é possível atribuir valor a ela uma única vez e não é possível
-mais modificá-la.
+1. Ambos os atributos não podem ser modificados depois de definidos seus respectivos valores. Podemos considerar os tipos
+enum como objetos estaticos:
+    public static final Sexo Masculino = new Sexo("M", "Masculino");
+Sendo mais prático trabalhar com enum se tivermos um numero finito de opções para variáveis.
 
-2. Mesmo com a variável final de grupo é possível alterar os atributos do grupo. Isso é possível, pois estamos alterando
-atributos internos da variável, e não ela como um todo.
+2. Ao tentar instanciar o enum permissões temos o seguitne retorno;
+    enum types may not be instantiated
+Isso ocorre pois os atributos enum são objetos por sua essência, sendo impossível instanciar o mesmo objeto duas vezes.
 
-3. Se tivessemos usado um array ao invés de um ArrayList o tamanho do array deve ser definido ao criar a variável array.
-E caso esse limite de elementos fosse alcançado não seria possível adicionar mais membros como fizemos com o ArrayList.
-Concluindo, se usarmos o array teríamos que saber o número exato de elementos que seriam adicionados, e caso este limite
-for excedido não será possível adicionar mais elementos.
+3.Relaçao entre Grupo, GrupoPublico e GrupoPrivado -> Composição, se a classe Grupo for removida as outras duas classes
+filhas deixam de existir;
 
-4. O principal benefício de usar herança é a reutilização de código por meio do relacionamento entre classes pai e filhas.
-Além disso, ao usar heranças conseguimos tornar o código mais organizado e fácil de interpretar.
+Relação entre Grupo e Usuário -> Associação, o Grupo possui Usuario e um Usuario é referente a um Grupo
 
-5. Quando adicionamos final diretamente na classe grupo inutilizamos todo o conceito de herança, pois GrupoPrivado e
-GrupoPublico não conseguem acessar e modificar os atributos herdados de Grupo. Isso ocorreu justamente porque definimos
-que a classe grupo tem um valor final, que impossibilita novas modificações, e heranças. O mesmo não ocorre com GrupoPú_
-blico, pois esta classe não é pai de nenhuma outra classe
+Relação entre Usuario e Sala -> Agregação, a Sala possui um usuário, mas se a Sala for excluida o Usuário ainda pode ser
+usado em outros lugares.
 
-6. Definimos adicionaMembro e removeMembro nas classes filhas, pois estes métodos são específicos de cada classe.
-A implementação deles varia dependendo do grupo que chama o método. O adicionaMembro e removeMembro de GrupoPrivado deve
-ter uma condição de adicionar membros(ou remover) apenas se o usuário que chamou o método for o dono do grupo. Já nos mé_
-todos adicionaMembro e removeMembro de GrupoPublico qualquer usuário pode adicoinar e remover novos membros.
+4. Em todas as relações a multiplicidade é de muitos para ambas as extremidades. Pois, Grupo possui diversos usuarios,
+usuarios estão em varios grupos. Usuarios podem estar em várias salas, e salas podem ter vários usuarios
 
  */
 
@@ -39,24 +34,114 @@ public class Main {
         Perfil perfil = new Perfil(Sexo.FEMININO, new GregorianCalendar(), "Cidade", Estado.PARAIBA, "Telefone", "Descricao", "Foto");
 
         //Cria os usuarios e grupo
-        Usuario user1 = new Usuario(1, "Login", "Email", "Senha", new GregorianCalendar(), true);
-        Usuario user2 = new Usuario(2, "Logi2", "Emai2", "Senh2", new GregorianCalendar(), true);
+        Admin admin1 = new Admin(1, "Login do Admin1", "Email do Admin1", "SenhaDoAdmin1", new GregorianCalendar(), true);
+        Admin admin2 = new Admin(2, "Login do Admin2", "Email do Admin2", "SenhaDoAdmin2", new GregorianCalendar(), true);
         //Grupo publico
-        user1.criarGrupo("Nome Grupo Public", "Descricao do grupo Publico", false);
-        GrupoPublico grupoPub = (GrupoPublico) user1.getGrupos().get(0);
+        admin1.criarGrupo(admin1,"Este grupo é um Grupo Publico", "Descricao do grupo Publico", false);
+        GrupoPublico grupoPub = (GrupoPublico) admin1.getGrupos().get(0);
         //Grupo privado
-        user1.criarGrupo("Nome Grupo Privado", "Descricao do grupo privado", true);
-        GrupoPrivado grupoPriv = (GrupoPrivado) user1.getGrupos().get(1);
+        admin2.criarGrupo(admin2,"Este é um Grupo Privado", "Descricao do grupo privado", true);
+        GrupoPrivado grupoPriv = (GrupoPrivado) admin2.getGrupos().get(0);
 
-        ArrayList<Permissoes> permissoes_teste;
-        permissoes_teste = new ArrayList();
-        permissoes_teste.add(Permissoes.ADICIONAR_USUARIO);
-        permissoes_teste.add(Permissoes.REMOVER_USUARIO);
-        permissoes_teste.add(Permissoes.VISUALIZAR_INFO);
-        grupoPriv.adicionarPermissao(user2, user2, permissoes_teste);
+        Usuario user1_priv = new Usuario(1, "Login_priv", "Email", "Senha", new GregorianCalendar(), true);
+        Usuario user2_priv = new Usuario(2, "Login2_priv", "Email2", "Senha2", new GregorianCalendar(), true);
+        Usuario user3_priv = new Usuario(3, "Login3_priv", "Email3", "Senha3", new GregorianCalendar(), true);
+        Usuario user4_priv = new Usuario(4, "Login4_priv", "Email4", "Senha4", new GregorianCalendar(), true);
 
-        ((GrupoPublico) user1.getGrupos().get(0)).adicionaMembro(user2);
-        System.out.println(((GrupoPublico) user1.getGrupos().get(0)).getMembros());
+        Usuario user1_pub = new Usuario(5, "Login_pub", "Email", "Senha", new GregorianCalendar(), true);
+        Usuario user2_pub = new Usuario(6, "Login2_pub", "Email2", "Senha2", new GregorianCalendar(), true);
+        Usuario user3_pub = new Usuario(7, "Login3_pub", "Email3", "Senha3", new GregorianCalendar(), true);
+        Usuario user4_pub = new Usuario(8, "Login4_pub", "Email4", "Senha4", new GregorianCalendar(), true);
 
+        //Adcionando os usuarios em seus respectivos grupos
+        grupoPriv.adicionaMembro(admin2, user1_priv);
+        grupoPriv.adicionaMembro(admin2, user2_priv);
+        grupoPriv.adicionaMembro(admin2, user3_priv);
+        grupoPriv.adicionaMembro(admin2, user4_priv);
+
+        grupoPub.adicionaMembro(admin1, user1_pub);
+        grupoPub.adicionaMembro(admin1, user2_pub);
+        grupoPub.adicionaMembro(admin1, user3_pub);
+        grupoPub.adicionaMembro(admin1, user4_pub);
+
+//Testes com o grupo publico----------------------------------------------------------------------------------------------------
+        /*Vamos testar as permissões de user1_pub e user2_pub. Note que, user1_pub terá todas as permissões, mas user2_pub
+        só terá permissão para vizualizar:*/
+
+        //Primeiramente, removendo todas as permissões de user2_pub:
+        ArrayList listaPermissoes = new ArrayList();
+        listaPermissoes.add(Permissoes.ADICIONAR_USUARIO);
+        listaPermissoes.add(Permissoes.REMOVER_USUARIO);
+        listaPermissoes.add(Permissoes.ALTERAR_USUARIO);
+        grupoPub.removerPermissao(user1_pub, user2_pub, listaPermissoes);
+
+        //Adicionar membros:
+        grupoPub.adicionaMembro(user1_pub, user1_priv);
+        grupoPub.adicionaMembro(user2_pub, user2_priv);
+        System.out.println("\nNovos membros adicionados no grupo público:");
+        System.out.println(grupoPub.getMembros());
+
+        //Removendo membros:
+        grupoPub.removeMembro(user1_pub, user1_priv);
+        grupoPub.removeMembro(user2_pub, user1_pub);
+        System.out.println("\nMembros removidos do grupo público:");
+        System.out.println(grupoPub.getMembros());
+
+        //Alterando permissão de membros:
+        grupoPub.removerPermissao(user1_pub, user3_pub, listaPermissoes);
+        grupoPub.removerPermissao(user2_pub, user1_pub, listaPermissoes);
+        System.out.println("\nArray List PermissaoRemover contem user2_pub?:");
+        System.out.println(grupoPub.getPermissaoRemover().contains(user2_pub));
+        System.out.println("Array List PermissaoRemover contem user1_pub?:");
+        System.out.println(grupoPub.getPermissaoRemover().contains(user1_pub));
+
+        //Vizualizando os dados do grupo
+        System.out.println("\nVizualizando os dados do grupo:");
+        System.out.println(grupoPub.vizualizarInfos(user1_pub));
+
+        //Lista de usuarios de cada permissão:
+        System.out.println("\nLista de usuarios com permissão de remover");
+        System.out.println(grupoPub.getPermissaoRemover());
+        System.out.println("\nLista de usuarios com permissão de adicionar");
+        System.out.println(grupoPub.getPermissaoAdicionar());
+        System.out.println("\nLista de usuarios com permissão de alterar");
+        System.out.println(grupoPub.getPermissaoAlterar());
+        System.out.println("\nLista de usuarios com permissão de vizualizar");
+        System.out.println(grupoPub.getPermissaoVizualizar());
+
+//Testes com o grupo privado----------------------------------------------------------------------------------------------------
+        System.out.println("\nTestes com o grupo privado----------------------------------------------------------------------------------------------------");
+        System.out.println("\nVizualização dos dados do grupo");
+        System.out.println(grupoPriv.vizualizarInfos(admin2));
+
+        //Alterando permissões de user1_priv e user2_priv:
+        grupoPriv.adicionarPermissao(admin2, user1_priv, listaPermissoes);
+        grupoPriv.adicionarPermissao(admin2, user2_priv, listaPermissoes);
+        System.out.println("\nAlterando permissões de user1_priv e user2_priv:");
+        System.out.println("Array List Permissao contem user1_priv?:");
+        System.out.println(grupoPriv.getPermissaoRemover().contains(user1_priv));
+        System.out.println("Array List Permissao contem user2_priv?:");
+        System.out.println(grupoPriv.getPermissaoRemover().contains(user2_priv));
+
+        //Tetando as permissões:
+        grupoPriv.adicionaMembro(user1_priv, user1_pub);
+        grupoPriv.adicionaMembro(user3_priv, user3_pub);//Não possui permissão de adicionar
+        System.out.println("\nLista de membros após o Usuario DONO dar a permissão de adicionar membros");
+        System.out.println(grupoPriv.getMembros());
+
+        grupoPriv.removeMembro(user1_priv, user1_pub);
+        grupoPriv.removeMembro(user3_priv, user1_priv);//Não possui permissão de remover
+        System.out.println("\nLista de membros após o Usuario DONO dar a permissão de remover membros");
+        System.out.println(grupoPriv.getMembros());
+
+        //Lista de usuarios de cada permissão:
+        System.out.println("\nLista de usuarios com permissão de remover");
+        System.out.println(grupoPriv.getPermissaoRemover());
+        System.out.println("\nLista de usuarios com permissão de adicionar");
+        System.out.println(grupoPriv.getPermissaoAdicionar());
+        System.out.println("\nLista de usuarios com permissão de alterar");
+        System.out.println(grupoPriv.getPermissaoAlterar());
+        System.out.println("\nLista de usuarios com permissão de vizualizar");
+        System.out.println(grupoPriv.getPermissaoVizualizar());
     }
 }

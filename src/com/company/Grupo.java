@@ -94,6 +94,19 @@ public class Grupo {
     public void setDataCriacao(Calendar dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    public String vizualizarInfos(Usuario user_chamou) {
+        if (getPermissaoVizualizar().contains(user_chamou)) {
+            String out = "(Grupo id: " + getId() + ")\n";
+            out = out + "Nome: " + getNome() + "\n";
+            out = out + "Dono " + getDono() + "\n";
+            out = out + "Membros: \n" + getMembros() + "\n";
+            out = out + "Status: " + isStatus() + "\n";
+
+            return out;
+        }
+        return "";
+    }
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){
         String out = "(Grupo id: " + getId() + ")\n";

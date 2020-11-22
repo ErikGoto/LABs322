@@ -17,8 +17,8 @@ public class GrupoPrivado extends Grupo{
         getPermissaoVizualizar().add(dono);
     }
     //Métodos-----------------------------------------------------------------------------------------------
-    public boolean adicionaMembro(Usuario usuario, Usuario dono){
-        if (isStatus() && getDono() == dono){
+    public boolean adicionaMembro(Usuario user_chamou, Usuario usuario){
+        if (isStatus() && getPermissaoAdicionar().contains(user_chamou)){
             getMembros().add(usuario);
             usuario.getGrupos().add(this);
 
@@ -28,8 +28,8 @@ public class GrupoPrivado extends Grupo{
         else return false;
     }
 
-    public boolean removeMembro(Usuario usuario, Usuario dono){
-        if (isStatus() && getDono() == dono){
+    public boolean removeMembro(Usuario user_chamou, Usuario usuario){
+        if (isStatus() && getPermissaoRemover().contains(user_chamou)){
             getMembros().remove(usuario);
             usuario.getGrupos().remove(this);
 
@@ -40,31 +40,35 @@ public class GrupoPrivado extends Grupo{
     }
 
     public void adicionarPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-        if (permissao.contains(Permissoes.ADICIONAR_USUARIO) && (user_chamou == getDono())){
-            getPermissaoAdicionar().add(user2);
-        }
-        if (permissao.contains(Permissoes.REMOVER_USUARIO) && (user_chamou == getDono())){
-            getPermissaoRemover().add(user2);
-        }
-        if (permissao.contains(Permissoes.ALTERAR_USUARIO) && (user_chamou == getDono())){
-            getPermissaoAlterar().add(user2);
-        }
-        if (permissao.contains(Permissoes.VISUALIZAR_INFO) && (user_chamou == getDono())){
-            getPermissaoVizualizar().add(user2);
+        if (this.getPermissaoAlterar().contains(user_chamou)){
+            if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
+                getPermissaoAdicionar().add(user2);
+            }
+            if (permissao.contains(Permissoes.REMOVER_USUARIO)){
+                getPermissaoRemover().add(user2);
+            }
+            if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
+                getPermissaoAlterar().add(user2);
+            }
+            if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
+                getPermissaoVizualizar().add(user2);
+            }
         }
     }
     public void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-        if (permissao.contains(Permissoes.ADICIONAR_USUARIO) && (user_chamou == getDono())){
-            getPermissaoAdicionar().remove(user2);
-        }
-        if (permissao.contains(Permissoes.REMOVER_USUARIO) && (user_chamou == getDono())){
-            getPermissaoRemover().remove(user2);
-        }
-        if (permissao.contains(Permissoes.ALTERAR_USUARIO) && (user_chamou == getDono())){
-            getPermissaoAlterar().remove(user2);
-        }
-        if (permissao.contains(Permissoes.VISUALIZAR_INFO) && (user_chamou == getDono())){
-            getPermissaoVizualizar().remove(user2);
+        if (this.getPermissaoAlterar().contains(user_chamou)){
+            if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
+                getPermissaoAdicionar().remove(user2);
+            }
+            if (permissao.contains(Permissoes.REMOVER_USUARIO)){
+                getPermissaoRemover().remove(user2);
+            }
+            if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
+                getPermissaoAlterar().remove(user2);
+            }
+            if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
+                getPermissaoVizualizar().remove(user2);
+            }
         }
     }
         //Função toString()-----------------------------------------------------------------------------------------------

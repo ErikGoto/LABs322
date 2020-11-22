@@ -78,18 +78,25 @@ public class Usuario {
         return grupos;
     }
 
-    public void criarGrupo(String nomeGrupo, String descricao, boolean tipoGrupo){
-        if (tipoGrupo == true){
-            GrupoPrivado novoGrupo = new GrupoPrivado(nomeGrupo, this, descricao);
-            this.grupos.add(novoGrupo);
-        }
-        if (tipoGrupo == false){
-            GrupoPublico novoGrupo = new GrupoPublico(nomeGrupo, this, descricao);
-            this.grupos.add(novoGrupo);
-        }
+    public void criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean tipoGrupo){
+         //Apenas usuarios admin podem criar grupos
+            if (user_chamou instanceof Admin){
+             if (tipoGrupo == true){
+                 GrupoPrivado novoGrupo = new GrupoPrivado(nomeGrupo, this, descricao);
+                 this.grupos.add(novoGrupo);
+             }
+             if (tipoGrupo == false){
+                 GrupoPublico novoGrupo = new GrupoPublico(nomeGrupo, this, descricao);
+                 this.grupos.add(novoGrupo);
+             }
+         }
     }
-    public void removerGrupo(Grupo grupo){
-        this.grupos.remove(grupo);
+    public void removerGrupo(Usuario user_chamou, Grupo grupo){
+        //Apenas usuarios admin podem remover grupos
+        if (user_chamou instanceof Admin){
+            this.grupos.remove(grupo);
+        }
+
     }
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){

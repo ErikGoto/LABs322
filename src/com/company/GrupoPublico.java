@@ -49,31 +49,35 @@ public class GrupoPublico extends Grupo{
     }
 
     public void adicionarPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-        if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
-            getPermissaoAdicionar().add(user2);
-        }
-        if (permissao.contains(Permissoes.REMOVER_USUARIO)){
-            getPermissaoRemover().add(user2);
-        }
-        if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
-            getPermissaoAlterar().add(user2);
-        }
-        if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
-            getPermissaoVizualizar().add(user2);
+        if (this.getPermissaoAlterar().contains(user_chamou)){
+            if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
+                getPermissaoAdicionar().add(user2);
+            }
+            if (permissao.contains(Permissoes.REMOVER_USUARIO)){
+                getPermissaoRemover().add(user2);
+            }
+            if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
+                getPermissaoAlterar().add(user2);
+            }
+            if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
+                getPermissaoVizualizar().add(user2);
+            }
         }
     }
     public void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-        if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
-            getPermissaoAdicionar().remove(user2);
-        }
-        if (permissao.contains(Permissoes.REMOVER_USUARIO)){
-            getPermissaoRemover().remove(user2);
-        }
-        if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
-            getPermissaoAlterar().remove(user2);
-        }
-        if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
-            getPermissaoVizualizar().remove(user2);
+        if (this.getPermissaoAlterar().contains(user_chamou)){
+            if (permissao.contains(Permissoes.ADICIONAR_USUARIO)){
+                getPermissaoAdicionar().remove(user2);
+            }
+            if (permissao.contains(Permissoes.REMOVER_USUARIO)){
+                getPermissaoRemover().remove(user2);
+            }
+            if (permissao.contains(Permissoes.ALTERAR_USUARIO)){
+                getPermissaoAlterar().remove(user2);
+            }
+            if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
+                getPermissaoVizualizar().remove(user2);
+            }
         }
     }
     //Função toString()-----------------------------------------------------------------------------------------------
