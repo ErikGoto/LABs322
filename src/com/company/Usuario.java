@@ -78,18 +78,8 @@ public class Usuario {
         return grupos;
     }
 
-    public void criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean tipoGrupo){
-         //Apenas usuarios admin podem criar grupos
-            if (user_chamou instanceof Admin){
-             if (tipoGrupo == true){
-                 GrupoPrivado novoGrupo = new GrupoPrivado(nomeGrupo, this, descricao);
-                 this.grupos.add(novoGrupo);
-             }
-             if (tipoGrupo == false){
-                 GrupoPublico novoGrupo = new GrupoPublico(nomeGrupo, this, descricao);
-                 this.grupos.add(novoGrupo);
-             }
-         }
+    public Grupo criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean Visibilidade){
+            return null;
     }
     public void removerGrupo(Usuario user_chamou, Grupo grupo){
         //Apenas usuarios admin podem remover grupos
