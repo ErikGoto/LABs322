@@ -13,4 +13,20 @@ public class Admin extends Usuario{
             grupo.setStatus(this, false);
         }
     }
+
+    public Grupo criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean Visibilidade){
+        if (Visibilidade == true) {
+            GrupoPrivado novoGrupo = new GrupoPrivado(nomeGrupo, this, descricao);
+            this.getGrupos().add(novoGrupo);
+
+            return novoGrupo;
+        }
+        if (Visibilidade == false) {
+            GrupoPublico novoGrupo = new GrupoPublico(nomeGrupo, this, descricao);
+            this.getGrupos().add(novoGrupo);
+
+            return novoGrupo;
+        }
+        return null;
+    }
 }

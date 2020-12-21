@@ -1,6 +1,7 @@
 package com.company;
 
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 public class GrupoPrivado extends Grupo{
@@ -15,14 +16,16 @@ public class GrupoPrivado extends Grupo{
         getPermissaoRemover().add(dono);
         getPermissaoAlterar().add(dono);
         getPermissaoVizualizar().add(dono);
+        getPermissaoCriarCartao().add(dono);
     }
     //Métodos-----------------------------------------------------------------------------------------------
-    public boolean adicionaMembro(Usuario user_chamou, Usuario usuario){
+    public boolean adicionaMembro(Usuario user_chamou, Usuario usuario, ArrayList<Permissoes> permissoesList){
         if (isStatus() && getPermissaoAdicionar().contains(user_chamou)){
             getMembros().add(usuario);
             usuario.getGrupos().add(this);
 
-            getPermissaoVizualizar().add(usuario);
+            //Dá apenas as permissões passadas pela lista do parâmetro
+            adicionarPermissao(this.getDono(), usuario, permissoesList);
             return true;
         }
         else return false;
@@ -33,10 +36,15 @@ public class GrupoPrivado extends Grupo{
             getMembros().remove(usuario);
             usuario.getGrupos().remove(this);
 
-            getPermissaoVizualizar().remove(this);
+            //todo aprimorar a lógica de remoção de permissões
+            getPermissaoAdicionar().remove(usuario);
+            getPermissaoRemover().remove(usuario);
+            getPermissaoAlterar().remove(usuario);
+            getPermissaoVizualizar().remove(usuario);
+            getPermissaoCriarCartao().remove(usuario);
             return true;
         }
-        else return false;
+        return false;
     }
 
     public void adicionarPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
@@ -53,6 +61,9 @@ public class GrupoPrivado extends Grupo{
             if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
                 getPermissaoVizualizar().add(user2);
             }
+            if (permissao.contains(Permissoes.CRIAR_CARTAO)){
+                getPermissaoCriarCartao().add(user2);
+            }
         }
     }
     public void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
@@ -68,6 +79,9 @@ public class GrupoPrivado extends Grupo{
             }
             if (permissao.contains(Permissoes.VISUALIZAR_INFO)){
                 getPermissaoVizualizar().remove(user2);
+            }
+            if (permissao.contains(Permissoes.CRIAR_CARTAO)){
+                getPermissaoCriarCartao().remove(user2);
             }
         }
     }

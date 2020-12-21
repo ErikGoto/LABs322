@@ -78,18 +78,8 @@ public class Usuario {
         return grupos;
     }
 
-    public void criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean tipoGrupo){
-         //Apenas usuarios admin podem criar grupos
-            if (user_chamou instanceof Admin){
-             if (tipoGrupo == true){
-                 GrupoPrivado novoGrupo = new GrupoPrivado(nomeGrupo, this, descricao);
-                 this.grupos.add(novoGrupo);
-             }
-             if (tipoGrupo == false){
-                 GrupoPublico novoGrupo = new GrupoPublico(nomeGrupo, this, descricao);
-                 this.grupos.add(novoGrupo);
-             }
-         }
+    public Grupo criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean Visibilidade){
+            return null;
     }
     public void removerGrupo(Usuario user_chamou, Grupo grupo){
         //Apenas usuarios admin podem remover grupos
@@ -97,6 +87,37 @@ public class Usuario {
             this.grupos.remove(grupo);
         }
 
+    }
+
+    public boolean criarCartao(int id) {
+        if(grupos.get(id).getPermissaoCriarCartao().contains(this)){
+            Cartao cartao = new Cartao();
+            grupos.get(id).adicionarCartao(cartao);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public ArrayList<Permissoes> getPermissoesNoGrupo(int grupo){
+        ArrayList<Permissoes> permissoes = new ArrayList<Permissoes>();
+        if(grupos.get(grupo).getPermissaoAdicionar().contains(this)){
+            permissoes.add(Permissoes.ADICIONAR_USUARIO);
+        }
+        if(grupos.get(grupo).getPermissaoRemover().contains(this)){
+            permissoes.add(Permissoes.REMOVER_USUARIO);
+        }
+        if(grupos.get(grupo).getPermissaoAlterar().contains(this)){
+            permissoes.add(Permissoes.ALTERAR_USUARIO);
+        }
+        if(grupos.get(grupo).getPermissaoVizualizar().contains(this)){
+            permissoes.add(Permissoes.VISUALIZAR_INFO);
+        }
+        if(grupos.get(grupo).getPermissaoCriarCartao().contains(this)){
+            permissoes.add(Permissoes.CRIAR_CARTAO);
+        }
+        return permissoes;
     }
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){

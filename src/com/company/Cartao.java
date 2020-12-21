@@ -29,6 +29,7 @@ public class Cartao {
     private boolean invitationOnly;
     private Calendar dataCriacao;
     private ArrayList<Label> label;
+    private String assunto;
     //Construtores-----------------------------------------------------------------------------------------------
     public Cartao(){
         numeroCartoes++;
@@ -113,6 +114,14 @@ public class Cartao {
 
     public void setDataCriacao(Calendar dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getAssunto() {
+        return assunto;
+    }
+
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
 
     //Métodos----------------------------------------------------------------------------------------------------
