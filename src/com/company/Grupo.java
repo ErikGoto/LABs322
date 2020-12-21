@@ -18,6 +18,7 @@ public class Grupo {
     private ArrayList<Usuario> permissaoAlterar;
     private ArrayList<Usuario> permissaoVizualizar;
     private ArrayList<Usuario> permissaoCriarCartao;
+    private ArrayList<Cartao> listaCartoes;
 
     //Construtor-----------------------------------------------------------------------------------------------
     public Grupo(String nome, Usuario dono, String descricao){
@@ -33,6 +34,8 @@ public class Grupo {
         permissaoRemover = new ArrayList();
         permissaoAlterar = new ArrayList();
         permissaoVizualizar = new ArrayList();
+        permissaoCriarCartao = new ArrayList();
+        listaCartoes = new ArrayList();
     }
 
     //Métodos-----------------------------------------------------------------------------------------------
@@ -82,6 +85,10 @@ public class Grupo {
         return permissaoCriarCartao;
     }
 
+    public ArrayList<Cartao> getListaCartoes() {
+        return listaCartoes;
+    }
+
     public boolean isStatus() {
         return status;
     }
@@ -112,6 +119,9 @@ public class Grupo {
         return "";
     }
 
+    public void adicionarCartao(Cartao cartao){
+        getListaCartoes().add(cartao);
+    }
     //Métodos sobrescritos nas classes filhas
     public boolean adicionaMembro(Usuario user_chamou, Usuario usuario, ArrayList<Permissoes> permissoesList){
         return false;
@@ -123,7 +133,6 @@ public class Grupo {
     }
     public void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
     }
-
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){
         String out = "(Grupo id: " + getId() + ")\n";
