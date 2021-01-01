@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-public class Cartao {
+public class Cartao implements Comparable {
     private static int numeroCartoes = 0;
     private int id;
     private int visibilidade;
@@ -30,7 +30,11 @@ public class Cartao {
     private Calendar dataCriacao;
     private ArrayList<Label> label;
     private String assunto;
+    private Usuario responsavel;
+    private int prioridade;
+
     //Construtores-----------------------------------------------------------------------------------------------
+    //Sem parâmetros
     public Cartao(){
         numeroCartoes++;
         this.id = numeroCartoes;
@@ -42,7 +46,24 @@ public class Cartao {
         label = new ArrayList();
     }
 
-    public Cartao(Usuario dono, boolean invitationOnly){
+    //Todos os atributos
+    public Cartao(int visibilidade, String nome, Usuario dono, boolean invitationOnly, Calendar dataCriacao,
+                  ArrayList label, String assunto, Usuario responsavel, int prioridade){
+        numeroCartoes++;
+        this.id = numeroCartoes;
+        this.visibilidade = visibilidade;
+        this.nome = nome;
+        this.dono = dono;
+        this.invitationOnly = invitationOnly;
+        this.dataCriacao = dataCriacao;
+        this.label = label;
+        this.assunto = assunto;
+        this.responsavel = responsavel;
+        this.prioridade = prioridade;
+
+    }
+    //Preenchimento pelo input
+    public Cartao(Usuario dono, boolean invitationOnly, Usuario responsavel, int prioridade){
         numeroCartoes++;
         this.id = numeroCartoes;
 
@@ -124,7 +145,40 @@ public class Cartao {
         this.assunto = assunto;
     }
 
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public int getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
+
+    public ArrayList<Label> getLabel() {
+        return label;
+    }
+
+    public void setLabel(ArrayList<Label> label) {
+        this.label = label;
+    }
+
     //Métodos----------------------------------------------------------------------------------------------------
+    public int compareTo(Cartao cartao){
+        if(this.prioridade < cartao.prioridade)
+            return 1;
+        if(this.prioridade > cartao.prioridade)
+            return -1;
+        if (this.prioridade == cartao.prioridade);
+            return 0;
+    }
+
     public String toString(){
         String out = "id: " + getId() + "\n";
         out += "Visibilidade " + getVisibilidade() + "\n";

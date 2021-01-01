@@ -3,8 +3,8 @@ package com.company;
 import java.util.Calendar;
 
 public class Admin extends Usuario{
-    public Admin(int id, String login, String email, String senha, Calendar data_ativacao, boolean status){
-        super(id, login, email, senha, data_ativacao, status);
+    public Admin(int id, String login, String email, String senha, Calendar data_ativacao, boolean status, Perfil perfil){
+        super(id, login, email, senha, data_ativacao, status, perfil);
     }
 
     public void desabilitarGrupo(Grupo grupo){

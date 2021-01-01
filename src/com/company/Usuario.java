@@ -2,8 +2,9 @@ package com.company;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class Usuario {
+public abstract class Usuario {
     private int id;
     private String login;
     private String email;
@@ -12,15 +13,18 @@ public class Usuario {
     private boolean status;
     private String descricao;
     private ArrayList<Grupo> grupos;
+    private Perfil perfil;
 
     //Construtor-----------------------------------------------------------------------------------------------
-        public Usuario(int id, String login, String email, String senha, Calendar data_ativacao, boolean status){
+        public Usuario(int id, String login, String email, String senha, Calendar data_ativacao, boolean status, Perfil
+                       perfil){
         this.id = id;
         this.login = login;
         this.email = email;
         this.senha = senha;
         this.data_ativacao = data_ativacao;
         this.status = status;
+        this.perfil = perfil;
 
         grupos = new ArrayList();
     }
@@ -78,9 +82,7 @@ public class Usuario {
         return grupos;
     }
 
-    public Grupo criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean Visibilidade){
-            return null;
-    }
+    public abstract Grupo criarGrupo(Usuario user_chamou, String nomeGrupo, String descricao, boolean Visibilidade);
     public void removerGrupo(Usuario user_chamou, Grupo grupo){
         //Apenas usuarios admin podem remover grupos
         if (user_chamou instanceof Admin){
@@ -89,9 +91,15 @@ public class Usuario {
 
     }
 
-    public boolean criarCartao(int id) {
-        if(grupos.get(id).getPermissaoCriarCartao().contains(this)){
-            Cartao cartao = new Cartao();
+    public boolean criarCartao(int id, int visibilidade, String nome, Usuario dono, boolean invitation, Calendar data,
+                               String assunto, Usuario responsavel, int prioridade) {
+        if(grupos.get(id).getPermissaoCriarCartao().contains(this) && responsavel.getGrupos().contains(id)){
+            ArrayList label = new ArrayList();
+            label.add(Label.TO_DO);
+
+            Cartao cartao = new Cartao(visibilidade, nome, dono, invitation, data,
+                    label, assunto, responsavel, prioridade);
+
             grupos.get(id).adicionarCartao(cartao);
 
             return true;
@@ -118,6 +126,21 @@ public class Usuario {
             permissoes.add(Permissoes.CRIAR_CARTAO);
         }
         return permissoes;
+    }
+
+    private boolean executarTarefa(Cartao cartao, Grupo grupo){
+        ArrayList<Label> label = new ArrayList();
+        label.add(Label.DONE);
+        cartao.setLabel(label);
+
+        grupo.getCartoesAFazer().remove(cartao);
+        grupo.getCartoesFeitos().add(cartao);
+
+        return true;
+    }
+    public boolean executarTarefaDeMaiorPrioridade(){
+        
+
     }
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){
