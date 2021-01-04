@@ -38,8 +38,10 @@ public abstract class Grupo {
         permissaoVizualizar = new ArrayList();
         permissaoCriarCartao = new ArrayList();
 
-    }
+        cartoesAFazer = new ArrayList<Cartao>();
+        cartoesFeitos = new ArrayList<Cartao>();
 
+    }
     //Métodos-----------------------------------------------------------------------------------------------
     public int getId() {
         return id;
@@ -134,7 +136,7 @@ public abstract class Grupo {
     }
 
     public void adicionarCartao(Cartao cartao){
-        getCartoesAFazer().add(cartao);
+        this.getCartoesAFazer().add(cartao);
     }
     //Métodos sobrescritos nas classes filhas
     public abstract boolean adicionaMembro(Usuario user_chamou, Usuario usuario, ArrayList<Permissoes> permissoesList);

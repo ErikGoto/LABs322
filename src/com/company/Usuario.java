@@ -93,7 +93,9 @@ public abstract class Usuario {
 
     public boolean criarCartao(int id, int visibilidade, String nome, Usuario dono, boolean invitation, Calendar data,
                                String assunto, Usuario responsavel, int prioridade) {
-        if(grupos.get(id).getPermissaoCriarCartao().contains(this) && responsavel.getGrupos().contains(id)){
+
+        if((grupos.get(id).getPermissaoCriarCartao().contains(this)) &&
+                (responsavel.getGrupos().contains(dono.getGrupos().get(id)))){
             ArrayList label = new ArrayList();
             label.add(Label.TO_DO);
 
@@ -128,19 +130,34 @@ public abstract class Usuario {
         return permissoes;
     }
 
-    private boolean executarTarefa(Cartao cartao, Grupo grupo){
+    private void executarTarefa(Cartao cartao, Grupo grupo){
         ArrayList<Label> label = new ArrayList();
         label.add(Label.DONE);
         cartao.setLabel(label);
 
         grupo.getCartoesAFazer().remove(cartao);
         grupo.getCartoesFeitos().add(cartao);
-
-        return true;
     }
-    public boolean executarTarefaDeMaiorPrioridade(){
-        
+    public void executarTarefaDeMaiorPrioridade(){
+        Cartao maiorPrioridade = new Cartao();
+        maiorPrioridade.setPrioridade(100);
 
+        int grupoPrioridade = 0;
+
+        for(int gr = 0; gr < this.grupos.size(); gr++){
+            for(int car = 0; car < this.grupos.get(gr).getCartoesAFazer().size(); car++) {
+                //O critério de desempate é o último cartão que é comparado
+                if(this.grupos.get(gr).getCartoesAFazer().get(car).compareTo(maiorPrioridade) == 1 ||
+                        this.grupos.get(gr).getCartoesAFazer().get(car).compareTo(maiorPrioridade) == 0){
+                    maiorPrioridade = this.grupos.get(gr).getCartoesAFazer().get(car);
+                    grupoPrioridade = gr;
+                }
+            }
+        }
+
+        executarTarefa(maiorPrioridade, this.grupos.get(grupoPrioridade));
+        System.out.println("Cartão Executado do grupo " + this.grupos.get(grupoPrioridade).getNome() + " pelo usuário \"" +
+                this.getLogin() + "\":\n" + maiorPrioridade);
     }
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){

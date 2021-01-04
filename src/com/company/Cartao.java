@@ -183,11 +183,13 @@ public class Cartao implements Comparable {
         String out = "id: " + getId() + "\n";
         out += "Visibilidade " + getVisibilidade() + "\n";
         out += "Nome: " + getNome() + "\n";
-
+        out += "Assunto: " + getAssunto() + "\n";
         if (getDono() != null){
             out += "Dono: " + getDono().getLogin() + "\n";
         }
         out += "Iinvitation Only: " + isInvitationOnly() + "\n";
+        out += "Prioridade: " + getPrioridade() + "\n";
+        out += "Responsável: " + getResponsavel() + "\n";
         out += "Data de Criação: " + getDataCriacao().get(Calendar.DATE) + "/" + getDataCriacao().get(Calendar.MONTH)
                 + "/" + getDataCriacao().get(Calendar.YEAR) + "\n\n";
 
