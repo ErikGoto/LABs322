@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Grupo {
+public abstract class Grupo {
     private static int numeroGrupos = 1;
     private int id;
     private String nome;
@@ -18,7 +18,9 @@ public class Grupo {
     private ArrayList<Usuario> permissaoAlterar;
     private ArrayList<Usuario> permissaoVizualizar;
     private ArrayList<Usuario> permissaoCriarCartao;
-    private ArrayList<Cartao> listaCartoes;
+
+    private ArrayList<Cartao> cartoesAFazer;
+    private ArrayList<Cartao> cartoesFeitos;
 
     //Construtor-----------------------------------------------------------------------------------------------
     public Grupo(String nome, Usuario dono, String descricao){
@@ -35,9 +37,11 @@ public class Grupo {
         permissaoAlterar = new ArrayList();
         permissaoVizualizar = new ArrayList();
         permissaoCriarCartao = new ArrayList();
-        listaCartoes = new ArrayList();
-    }
 
+        cartoesAFazer = new ArrayList<Cartao>();
+        cartoesFeitos = new ArrayList<Cartao>();
+
+    }
     //Métodos-----------------------------------------------------------------------------------------------
     public int getId() {
         return id;
@@ -85,8 +89,20 @@ public class Grupo {
         return permissaoCriarCartao;
     }
 
-    public ArrayList<Cartao> getListaCartoes() {
-        return listaCartoes;
+    public ArrayList<Cartao> getCartoesAFazer() {
+        return cartoesAFazer;
+    }
+
+    public void setCartoesAFazer(ArrayList<Cartao> cartoesAFazer) {
+        this.cartoesAFazer = cartoesAFazer;
+    }
+
+    public ArrayList<Cartao> getCartoesFeitos() {
+        return cartoesFeitos;
+    }
+
+    public void setCartoesFeitos(ArrayList<Cartao> cartoesFeitos) {
+        this.cartoesFeitos = cartoesFeitos;
     }
 
     public boolean isStatus() {
@@ -120,19 +136,13 @@ public class Grupo {
     }
 
     public void adicionarCartao(Cartao cartao){
-        getListaCartoes().add(cartao);
+        this.getCartoesAFazer().add(cartao);
     }
     //Métodos sobrescritos nas classes filhas
-    public boolean adicionaMembro(Usuario user_chamou, Usuario usuario, ArrayList<Permissoes> permissoesList){
-        return false;
-    }
-    public boolean removeMembro(Usuario user_chamou, Usuario usuario){
-        return false;
-    }
-    public void adicionarPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-    }
-    public void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao){
-    }
+    public abstract boolean adicionaMembro(Usuario user_chamou, Usuario usuario, ArrayList<Permissoes> permissoesList);
+    public abstract boolean removeMembro(Usuario user_chamou, Usuario usuario);
+    public abstract void adicionarPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao);
+    public abstract void removerPermissao(Usuario user_chamou, Usuario user2, ArrayList<Permissoes> permissao);
     //Função toString()-----------------------------------------------------------------------------------------------
     public String toString(){
         String out = "(Grupo id: " + getId() + ")\n";

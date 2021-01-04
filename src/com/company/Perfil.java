@@ -11,7 +11,8 @@ public class Perfil {
     private String foto;
 
     //Construtor-----------------------------------------------------------------------------------------------
-    public Perfil(Sexo sexo, Calendar data_nascimento, String cidade, Estado estado, String telefone, String descricao, String foto){
+    public Perfil(Sexo sexo, Calendar data_nascimento, String cidade, Estado estado, String telefone, String descricao,
+                  String foto){
         this.sexo = sexo;
         this.data_nascimento = data_nascimento;
         this.cidade = cidade;

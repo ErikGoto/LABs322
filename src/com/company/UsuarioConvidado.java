@@ -7,8 +7,8 @@ public class UsuarioConvidado extends Usuario {
 
     //Construtor-----------------------------------------------------------------------------------------------
     public UsuarioConvidado(int id, String login, String email, String senha, Calendar data_ativacao, boolean status,
-                            Calendar dataExpiracao){
-        super(id, login, email, senha, data_ativacao, status);
+                            Calendar dataExpiracao, Perfil perfil){
+        super(id, login, email, senha, data_ativacao, status, perfil);
         this.dataExpiracao = dataExpiracao;
     }
 
